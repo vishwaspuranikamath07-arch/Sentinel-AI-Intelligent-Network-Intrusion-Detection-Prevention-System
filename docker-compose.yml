@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  ai-nids-app:
+    build: .
+    container_name: ai-nids-core
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - ENVIRONMENT=development
+      - LOG_LEVEL=DEBUG
+      - CAPTURE_INTERFACE=eth0
+    # Required for raw packet capture inside Docker
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    network_mode: "host" # Monitor host network traffic
+    restart: unless-stopped
